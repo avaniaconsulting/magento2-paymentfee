@@ -1,25 +1,28 @@
 {
-  "name": "mageprince/magento2-paymentfee",
-  "description": "Magento 2 Add Payment Fee To Order",
-  "homepage": "https://github.com/mageprince/magento2-paymentfee",
+  "name": "avaniaconsulting/magento2-paymentfee",
+  "description": "Magento 2 Add Payment Fee To Order (Avania fork)",
+  "homepage": "https://github.com/avaniaconsulting/magento2-paymentfee",
   "type": "magento2-module",
-  "version": "2.1.6",
+  "version": "2.1.6-avania1",
   "license": "GPL-3.0-or-later",
   "authors": [
     {
-      "name": "Mageprince",
-      "email": "contact@mageprince.com"
+      "name": "Avania Consulting Oy",
+      "email": "asiakaspalvelu@avania.fi"
     }
   ],
   "support": {
-        "issues": "https://github.com/mageprince/magento2-paymentfee/issues"
-    },
+    "issues": "https://github.com/avaniaconsulting/magento2-paymentfee/issues"
+  },
+  "replace": {
+    "mageprince/magento2-paymentfee": "*"
+  },
   "autoload": {
     "files": [
-        "registration.php"
+      "registration.php"
     ],
     "psr-4": {
-        "Mageprince\\Paymentfee\\": ""
+      "Mageprince\\Paymentfee\\": ""
     }
   }
 }
