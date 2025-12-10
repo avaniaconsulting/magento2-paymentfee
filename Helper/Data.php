@@ -240,7 +240,12 @@ class Data extends AbstractHelper
             $shippingAddress = $quote->getShippingAddress();
             if ($shippingAddress) {
                 $shippingMethod = $shippingAddress->getShippingMethod();
-                if ($shippingMethod && strpos($shippingMethod, 'tablerate_') !== 0) {
+                // Debug logging
+                $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee.log');
+                $logger = new \Zend_Log($writer);
+                $logger->info('Payment Fee Check - Shipping Method: ' . $shippingMethod);
+
+                if ($shippingMethod && strpos($shippingMethod, 'tablerate') !== 0) {
                     return false;
                 }
             }
