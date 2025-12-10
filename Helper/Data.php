@@ -237,6 +237,13 @@ class Data extends AbstractHelper
     {
         $this->getPaymentFee();
         if ($this->isEnable()) {
+            $shippingAddress = $quote->getShippingAddress();
+            if ($shippingAddress) {
+                $shippingMethod = $shippingAddress->getShippingMethod();
+                if ($shippingMethod && strpos($shippingMethod, 'tablerate_') !== 0) {
+                    return false;
+                }
+            }
             if ($method = $quote->getPayment()->getMethod()) {
                 if (isset($this->methodFee[$method])) {
                     return true;
@@ -254,7 +261,7 @@ class Data extends AbstractHelper
      */
     public function getFee(Quote $quote)
     {
-        $method  = $quote->getPayment()->getMethod();
+        $method = $quote->getPayment()->getMethod();
         $fee = $this->methodFee[$method]['fee'];
         return $fee;
     }
@@ -331,7 +338,7 @@ class Data extends AbstractHelper
      */
     public function displayInclTax($storeId = null)
     {
-        return in_array($this->getTaxDisplay($storeId), [2,3]);
+        return in_array($this->getTaxDisplay($storeId), [2, 3]);
     }
 
     /**
@@ -342,7 +349,7 @@ class Data extends AbstractHelper
      */
     public function displayExclTax($storeId = null)
     {
-        return in_array($this->getTaxDisplay($storeId), [1,3]);
+        return in_array($this->getTaxDisplay($storeId), [1, 3]);
     }
 
     /**
