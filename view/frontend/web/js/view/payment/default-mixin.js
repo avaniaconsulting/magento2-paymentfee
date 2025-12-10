@@ -1,6 +1,7 @@
 define([
-    'ko'
-], function (ko) {
+    'ko',
+    'Magento_Checkout/js/model/quote'
+], function (ko, quote) {
     'use strict';
 
     return function (Component) {
@@ -13,15 +14,19 @@ define([
             getTitle: function () {
                 var title = this._super();
                 var paymentFeeConfig = window.checkoutConfig.mageprince_paymentfee;
+                var shippingMethod = quote.shippingMethod();
 
                 if (paymentFeeConfig && paymentFeeConfig.isEnabled) {
                     var fees = paymentFeeConfig.payment_fees;
                     var methodCode = this.item.method;
 
                     if (fees && fees[methodCode]) {
-                        var feeAmount = fees[methodCode];
-                        var feeTitle = paymentFeeConfig.title || 'Fee';
-                        return title + ' + ' + feeAmount + ' ' + feeTitle;
+                        // Check if shipping method is Table Rate
+                        if (shippingMethod && shippingMethod.carrier_code == 'tablerate') {
+                            var feeAmount = fees[methodCode];
+                            var feeTitle = paymentFeeConfig.title || 'Fee';
+                            return title + ' + ' + feeAmount + ' ' + feeTitle;
+                        }
                     }
                 }
 

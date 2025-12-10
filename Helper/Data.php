@@ -233,20 +233,22 @@ class Data extends AbstractHelper
      * @param Quote $quote
      * @return bool
      */
-    public function canApply(Quote $quote)
+    public function canApply(Quote $quote, $ignoreShipping = false)
     {
         $this->getPaymentFee();
         if ($this->isEnable()) {
-            $shippingAddress = $quote->getShippingAddress();
-            if ($shippingAddress) {
-                $shippingMethod = $shippingAddress->getShippingMethod();
-                // Debug logging
-                $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee.log');
-                $logger = new \Zend_Log($writer);
-                $logger->info('Payment Fee Check - Shipping Method: ' . $shippingMethod);
+            if (!$ignoreShipping) {
+                $shippingAddress = $quote->getShippingAddress();
+                if ($shippingAddress) {
+                    $shippingMethod = $shippingAddress->getShippingMethod();
+                    // Debug logging
+                    $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee.log');
+                    $logger = new \Zend_Log($writer);
+                    $logger->info('Payment Fee Check - Shipping Method: ' . $shippingMethod);
 
-                if ($shippingMethod && strpos($shippingMethod, 'tablerate') !== 0) {
-                    return false;
+                    if ($shippingMethod && strpos($shippingMethod, 'tablerate') !== 0) {
+                        return false;
+                    }
                 }
             }
             if ($method = $quote->getPayment()->getMethod()) {

@@ -87,14 +87,14 @@ class PaymentFeeConfigProvider implements ConfigProviderInterface
         if ($this->helper->isEnable()) {
             $quote = $this->checkoutSession->getQuote();
             $methodFees = $this->helper->getPaymentFee();
-            
+
             foreach ($methodFees as $methodCode => $feeData) {
                 // Temporarily set payment method to calculate fee
                 $originalMethod = $quote->getPayment()->getMethod();
                 $quote->getPayment()->setMethod($methodCode);
-                
+
                 try {
-                    if ($this->helper->canApply($quote)) {
+                    if ($this->helper->canApply($quote, true)) {
                         $feeAmount = $this->calculatorFactory->get()->calculate($quote);
                         if ($feeAmount > 0) {
                             $formattedFee = $this->priceHelper->currency($feeAmount, true, false);
