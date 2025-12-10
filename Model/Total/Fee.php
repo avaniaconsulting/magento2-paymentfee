@@ -93,7 +93,7 @@ class Fee extends Address\Total\AbstractTotal
         $baseTax = 0;
         $tax = 0;
 
-        if ($this->helper->isEnable()) {
+        if ($this->helper->canApply($quote)) {
             $baseFee = $this->calculator->calculate($quote);
             $fee = $this->helper->getStoreFee($baseFee, $quote);
 
@@ -156,12 +156,13 @@ class Fee extends Address\Total\AbstractTotal
             ]
         ];
 
-        if ($this->helper->isTaxEnabled() &&
+        if (
+            $this->helper->isTaxEnabled() &&
             $this->helper->displayInclTax() &&
             !$this->helper->isBackendArea()
         ) {
             $address = $this->getAddressFromQuote($quote);
-            $result [] = [
+            $result[] = [
                 'code' => 'payment_fee_incl_tax',
                 'value' => $fee + $address->getPaymentFeeTax()
             ];
