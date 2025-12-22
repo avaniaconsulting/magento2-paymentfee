@@ -23,8 +23,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceContainer name="creditmemo_totals">
-            <block class="Mageprince\Paymentfee\Block\Sales\Totals" name="mageprince_paymentfee" />
-        </referenceContainer>
+        <referenceBlock name="creditmemo_totals">
+            <block class="Mageprince\Paymentfee\Block\Sales\Totals" name="mageprince_paymentfee">
+                <action method="initTotals" />
+            </block>
+        </referenceBlock>
     </body>
 </page>
