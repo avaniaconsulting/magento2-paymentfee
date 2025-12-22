@@ -53,9 +53,6 @@ class Totals extends Template
     ) {
         $this->helper = $helper;
         $this->dataObjectFactory = $dataObjectFactory;
-        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
-        $logger = new \Zend_Log($writer);
-        $logger->info('Payment Fee Block: Constructed');
         parent::__construct($context, $data);
     }
 
@@ -116,22 +113,16 @@ class Totals extends Template
         if ($this->helper->displayExclTax($storeId)) {
             $parent->addTotal(
                 $this->dataObjectFactory->create()->setData($paymentFeeExclTaxTotal),
-                'subtotal'
+                'shipping'
             );
         }
 
         if ($this->helper->displayInclTax($storeId)) {
             $parent->addTotal(
                 $this->dataObjectFactory->create()->setData($paymentFeeInclTaxTotal),
-                'subtotal'
+                'shipping'
             );
         }
-
-        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
-        $logger = new \Zend_Log($writer);
-        $keys = implode(', ', array_keys($parent->getTotals()));
-        $logger->info('Payment Fee Debug: Current Totals keys in parent: ' . $keys);
-        $logger->info('Payment Fee Debug: Label used: ' . $paymentFeeTitle);
 
         return $this;
     }
