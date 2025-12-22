@@ -115,13 +115,15 @@ class Totals extends Template
 
         if ($this->helper->displayExclTax($storeId)) {
             $parent->addTotal(
-                $this->dataObjectFactory->create()->setData($paymentFeeExclTaxTotal)
+                $this->dataObjectFactory->create()->setData($paymentFeeExclTaxTotal),
+                'subtotal'
             );
         }
 
         if ($this->helper->displayInclTax($storeId)) {
             $parent->addTotal(
-                $this->dataObjectFactory->create()->setData($paymentFeeInclTaxTotal)
+                $this->dataObjectFactory->create()->setData($paymentFeeInclTaxTotal),
+                'subtotal'
             );
         }
 
@@ -129,6 +131,7 @@ class Totals extends Template
         $logger = new \Zend_Log($writer);
         $keys = implode(', ', array_keys($parent->getTotals()));
         $logger->info('Payment Fee Debug: Current Totals keys in parent: ' . $keys);
+        $logger->info('Payment Fee Debug: Label used: ' . $paymentFeeTitle);
 
         return $this;
     }
