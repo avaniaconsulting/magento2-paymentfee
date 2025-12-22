@@ -53,6 +53,9 @@ class Totals extends Template
     ) {
         $this->helper = $helper;
         $this->dataObjectFactory = $dataObjectFactory;
+        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
+        $logger = new \Zend_Log($writer);
+        $logger->info('Payment Fee Block: Constructed');
         parent::__construct($context, $data);
     }
 
