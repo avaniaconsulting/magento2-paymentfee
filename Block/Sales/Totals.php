@@ -73,30 +73,11 @@ class Totals extends Template
      */
     public function initTotals()
     {
-        // DEBUGGING: Log entry into initTotals
-        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/paymentfee.log');
-        $logger = new \Zend_Log($writer);
-        $logger->info('PAYMENTFEE: initTotals called');
-
         $parent = $this->getParentBlock();
-        if (!$parent) {
-            $logger->info('PAYMENTFEE: No parent block found');
-            return $this;
-        }
-        $logger->info('PAYMENTFEE: Parent block class: ' . get_class($parent));
-
         $source = $this->getSource();
-        if (!$source) {
-            $logger->info('PAYMENTFEE: No source found on parent block');
-            return $this;
-        }
-        $logger->info('PAYMENTFEE: Source class: ' . get_class($source));
-        $logger->info('PAYMENTFEE: Payment Fee Value: ' . $source->getPaymentFee());
-
         $storeId = $source->getStoreId();
 
         if ($source->getPaymentFee() == 0) {
-            $logger->info('PAYMENTFEE: Payment fee is 0, skipping');
             return $this;
         }
 
