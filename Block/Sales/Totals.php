@@ -124,6 +124,16 @@ class Totals extends Template
             );
         }
 
-        return $this;
+        if ($source->getPaymentFee() == 0) {
+            $paymentFee = $source->getPaymentFee();
+            $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
+            $logger = new \Zend_Log($writer);
+            $logger->info('Payment Fee Debug: Fee is 0 for source ' . get_class($source));
+            return $this;
+        }
+
+        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
+        $logger = new \Zend_Log($writer);
+        $logger->info('Payment Fee Debug: Fee found: ' . $source->getPaymentFee());
     }
 }
