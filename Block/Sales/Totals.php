@@ -115,28 +115,21 @@ class Totals extends Template
 
         if ($this->helper->displayExclTax($storeId)) {
             $parent->addTotal(
-                $this->dataObjectFactory->create()->setData($paymentFeeExclTaxTotal),
-                'shipping'
+                $this->dataObjectFactory->create()->setData($paymentFeeExclTaxTotal)
             );
         }
 
         if ($this->helper->displayInclTax($storeId)) {
             $parent->addTotal(
-                $this->dataObjectFactory->create()->setData($paymentFeeInclTaxTotal),
-                'shipping'
+                $this->dataObjectFactory->create()->setData($paymentFeeInclTaxTotal)
             );
-        }
-
-        if ($source->getPaymentFee() == 0) {
-            $paymentFee = $source->getPaymentFee();
-            $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
-            $logger = new \Zend_Log($writer);
-            $logger->info('Payment Fee Debug: Fee is 0 for source ' . get_class($source));
-            return $this;
         }
 
         $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
         $logger = new \Zend_Log($writer);
-        $logger->info('Payment Fee Debug: Fee found: ' . $source->getPaymentFee());
+        $keys = implode(', ', array_keys($parent->getTotals()));
+        $logger->info('Payment Fee Debug: Current Totals keys in parent: ' . $keys);
+
+        return $this;
     }
 }
