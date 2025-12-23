@@ -73,33 +73,11 @@ class Totals extends Template
      */
     public function initTotals()
     {
-        // Debug Logging
-        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
-        $logger = new \Zend_Log($writer);
-        $logger->info('Payment Fee Debug: initTotals called');
-        $logger->info('Payment Fee Debug: My Block Name: ' . $this->getNameInLayout());
-
         $parent = $this->getParentBlock();
-        if ($parent) {
-            $logger->info('Payment Fee Debug: Parent Block Name: ' . $parent->getNameInLayout());
-            $logger->info('Payment Fee Debug: Parent Block Class: ' . get_class($parent));
-            $children = $parent->getChildNames();
-            $logger->info('Payment Fee Debug: Parent Child Names: ' . implode(', ', $children));
-            $child = $parent->getChildBlock('payment_fee');
-            if ($child) {
-                $logger->info('Payment Fee Debug: Parent found child "payment_fee"');
-            } else {
-                $logger->info('Payment Fee Debug: Parent DID NOT find child "payment_fee"');
-            }
-        } else {
-            $logger->info('Payment Fee Debug: No Parent Block found!');
-        }
-
         $source = $this->getSource();
         $storeId = $source->getStoreId();
 
         if ($source->getPaymentFee() == 0) {
-            $logger->info('Payment Fee Debug: Fee is 0, skipping.');
             return $this;
         }
 
@@ -109,7 +87,6 @@ class Totals extends Template
         $basePaymentFeeExclTax = $source->getBasePaymentFee();
         $paymentFeeExclTaxTotal = [
             'code' => 'payment_fee',
-            'block_name' => 'mageprince_paymentfee',
             'strong' => false,
             'value' => $paymentFeeExclTax,
             'base_value' => $basePaymentFeeExclTax,
@@ -120,7 +97,6 @@ class Totals extends Template
         $basePaymentFeeInclTax = $basePaymentFeeExclTax + $source->getBasePaymentFeeTax();
         $paymentFeeInclTaxTotal = [
             'code' => 'payment_fee_incl_tax',
-            'block_name' => 'mageprince_paymentfee',
             'strong' => false,
             'value' => $paymentFeeInclTax,
             'base_value' => $basePaymentFeeInclTax,
@@ -149,42 +125,5 @@ class Totals extends Template
         }
 
         return $this;
-    }
-    /**
-     * Format total value based on order currency
-     *
-     * @param \Magento\Framework\DataObject $total
-     * @return string
-     */
-    public function formatValue($total)
-    {
-        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
-        $logger = new \Zend_Log($writer);
-        $logger->info('Payment Fee Debug: formatValue called');
-
-        if (!$total->getIsFormated()) {
-            return $this->getParentBlock()->formatValue($total);
-        }
-        return $total->getValue();
-    }
-
-    /**
-     * Get label properties
-     *
-     * @return string
-     */
-    public function getLabelProperties()
-    {
-        return $this->getParentBlock()->getLabelProperties();
-    }
-
-    /**
-     * Get value properties
-     *
-     * @return string
-     */
-    public function getValueProperties()
-    {
-        return $this->getParentBlock()->getValueProperties();
     }
 }
