@@ -53,6 +53,7 @@ class Totals extends Template
     ) {
         $this->helper = $helper;
         $this->dataObjectFactory = $dataObjectFactory;
+        $this->setTemplate('Magento_Sales::order/totals/default.phtml');
         parent::__construct($context, $data);
     }
 
@@ -109,7 +110,7 @@ class Totals extends Template
         $basePaymentFeeExclTax = $source->getBasePaymentFee();
         $paymentFeeExclTaxTotal = [
             'code' => 'payment_fee',
-            'block_name' => 'payment_fee',
+            'block_name' => 'mageprince_paymentfee',
             'strong' => false,
             'value' => $paymentFeeExclTax,
             'base_value' => $basePaymentFeeExclTax,
@@ -120,7 +121,7 @@ class Totals extends Template
         $basePaymentFeeInclTax = $basePaymentFeeExclTax + $source->getBasePaymentFeeTax();
         $paymentFeeInclTaxTotal = [
             'code' => 'payment_fee_incl_tax',
-            'block_name' => 'payment_fee',
+            'block_name' => 'mageprince_paymentfee',
             'strong' => false,
             'value' => $paymentFeeInclTax,
             'base_value' => $basePaymentFeeInclTax,
