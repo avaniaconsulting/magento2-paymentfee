@@ -53,7 +53,6 @@ class Totals extends Template
     ) {
         $this->helper = $helper;
         $this->dataObjectFactory = $dataObjectFactory;
-        $this->setTemplate('Magento_Sales::order/totals/default.phtml');
         parent::__construct($context, $data);
     }
 
