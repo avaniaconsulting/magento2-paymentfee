@@ -24,6 +24,7 @@
     <body>
         <referenceBlock name="invoice_totals">
             <block class="Mageprince\Paymentfee\Block\Sales\Totals" name="mageprince_paymentfee" />
+            <block class="Magento\Sales\Block\Order\Totals" name="payment_fee" template="Magento_Sales::order/totals/default.phtml" />
         </referenceBlock>
     </body>
 </page>
