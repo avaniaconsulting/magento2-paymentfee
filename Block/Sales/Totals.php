@@ -134,6 +134,10 @@ class Totals extends Template
      */
     public function formatValue($total)
     {
+        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/payment_fee_debug.log');
+        $logger = new \Zend_Log($writer);
+        $logger->info('Payment Fee Debug: formatValue called');
+
         if (!$total->getIsFormated()) {
             return $this->getParentBlock()->formatValue($total);
         }
