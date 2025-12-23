@@ -139,4 +139,24 @@ class Totals extends Template
         }
         return $total->getValue();
     }
+
+    /**
+     * Get label properties
+     *
+     * @return string
+     */
+    public function getLabelProperties()
+    {
+        return $this->getParentBlock()->getLabelProperties();
+    }
+
+    /**
+     * Get value properties
+     *
+     * @return string
+     */
+    public function getValueProperties()
+    {
+        return $this->getParentBlock()->getValueProperties();
+    }
 }
