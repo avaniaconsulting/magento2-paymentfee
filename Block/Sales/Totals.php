@@ -126,4 +126,17 @@ class Totals extends Template
 
         return $this;
     }
+    /**
+     * Format total value based on order currency
+     *
+     * @param \Magento\Framework\DataObject $total
+     * @return string
+     */
+    public function formatValue($total)
+    {
+        if (!$total->getIsFormated()) {
+            return $this->getParentBlock()->formatValue($total);
+        }
+        return $total->getValue();
+    }
 }
